@@ -1,6 +1,8 @@
 package golang_web
 
 import (
+	"embed"
+	_ "embed"
 	"fmt"
 	"html/template"
 	"io/ioutil"
@@ -109,4 +111,78 @@ func TemplateDirectory(w http.ResponseWriter, r *http.Request) {
 		panic(err)
 	}
 
+}
+
+func TestTemplateDirectory(t *testing.T) {
+
+	// handler
+	handler := http.HandlerFunc(TemplateDirectory)
+
+	//request
+	request := httptest.NewRequest("GET", "http://localhost:8080", nil)
+
+	// recorder
+	recorder := httptest.NewRecorder()
+
+	// serve
+	handler.ServeHTTP(recorder, request)
+
+	//response
+	response := recorder.Result()
+
+	// check body
+	body, _ := ioutil.ReadAll(response.Body)
+
+	//expected
+	expected := `<html><body><h1>Hello From Template Directory</h1></body></html>`
+
+	assert.Equal(t, expected, string(body))
+
+	fmt.Println(string(body))
+
+	fmt.Println("Success")
+}
+
+//go:embed templates/*.gohtml
+var templates embed.FS
+
+func TemplateEmbed(w http.ResponseWriter, r *http.Request) {
+
+	t := template.Must(template.ParseFS(templates, "templates/*.gohtml"))
+
+	err := t.ExecuteTemplate(w, "example.gohtml", "Hello From Template Embed")
+	if err != nil {
+		panic(err)
+	}
+
+}
+
+func TestTemplateEmbed(t *testing.T) {
+
+	// handler
+	handler := http.HandlerFunc(TemplateEmbed)
+
+	//request
+	request := httptest.NewRequest("GET", "http://localhost:8080", nil)
+
+	// recorder
+	recorder := httptest.NewRecorder()
+
+	// serve
+	handler.ServeHTTP(recorder, request)
+
+	//response
+	response := recorder.Result()
+
+	// check body
+	body, _ := ioutil.ReadAll(response.Body)
+
+	//expected
+	expected := `<html><body><h1>Hello From Template Embed</h1></body></html>`
+
+	assert.Equal(t, expected, string(body))
+
+	fmt.Println(string(body))
+
+	fmt.Println("Success")
 }
