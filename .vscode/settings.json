@@ -18,7 +18,7 @@
   "editor.find.addExtraSpaceOnTop": false,
   "editor.formatOnPaste": true,
   "editor.formatOnSave": false,
-  "editor.rulers": [120],
+  "editor.rulers": [100],
   "editor.minimap.enabled": true,
   "editor.fontLigatures": true,
   "editor.fontFamily": "JetBrains Mono",
