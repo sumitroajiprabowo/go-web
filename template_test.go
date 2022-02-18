@@ -1,4 +1,4 @@
-package golang_web
+package golangweb
 
 import (
 	"embed"
@@ -13,7 +13,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func SimpleHtml(w http.ResponseWriter, r *http.Request) {
+func SimpleHTML(w http.ResponseWriter, r *http.Request) {
 
 	templateText := `<html><body><h1>{{.}}</h1></body></html>`
 
@@ -40,7 +40,7 @@ func TestSimpleHtml(t *testing.T) {
 	recorder := httptest.NewRecorder()
 
 	// handler
-	handler := http.HandlerFunc(SimpleHtml)
+	handler := http.HandlerFunc(SimpleHTML)
 
 	// serve
 	handler.ServeHTTP(recorder, request)
@@ -61,7 +61,7 @@ func TestSimpleHtml(t *testing.T) {
 	fmt.Println("Success")
 }
 
-func SimpleHtmlTemplate(w http.ResponseWriter, r *http.Request) {
+func SimpleHTMLTemplate(w http.ResponseWriter, r *http.Request) {
 
 	t := template.Must(template.ParseFiles("./templates/example.gohtml"))
 
@@ -72,10 +72,10 @@ func SimpleHtmlTemplate(w http.ResponseWriter, r *http.Request) {
 
 }
 
-func TestSimpleHtmlTemplate(t *testing.T) {
+func TestSimpleHTMLTemplate(t *testing.T) {
 
 	// handler
-	handler := http.HandlerFunc(SimpleHtmlTemplate)
+	handler := http.HandlerFunc(SimpleHTMLTemplate)
 
 	//request
 	request := httptest.NewRequest("GET", "http://localhost:8080", nil)
@@ -106,7 +106,7 @@ func TemplateDirectory(w http.ResponseWriter, r *http.Request) {
 
 	t := template.Must(template.ParseGlob("./templates/*.gohtml"))
 
-	err := t.Execute(w, "Hello From Template Directory")
+	err := t.ExecuteTemplate(w, "example.gohtml", "Hello From Template Directory")
 	if err != nil {
 		panic(err)
 	}
