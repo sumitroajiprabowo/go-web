@@ -1,4 +1,4 @@
-package golang_web
+package golangweb
 
 import (
 	"embed"

@@ -1,4 +1,4 @@
-module golang_web
+module golangweb
 
 go 1.17
 
