@@ -1,0 +1,9 @@
+<html>
+    <body>
+    {{ range $index, $element := .Hoobies }}
+        <p>{{ $index }} {{ $element }}</p>
+    {{ else }}
+        <p>No hoobies</p>
+    {{ end }}
+    </body>
+</html>

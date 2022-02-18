@@ -1,0 +1,18 @@
+<html>
+    <body>
+    {{/* Example Comment */}}
+    Name: {{ .Name }}<br>
+    Age: {{ .Age }}<br>
+    {{/* Example Comment */}}
+    
+    {{ with .Address }}
+    Street: {{ .Street }}<br>
+    City: {{ .City }}<br>
+    State: {{ .State }}<br>
+
+    {{ else }}
+    No Address Provided<br>
+
+    {{ end }}
+    </body>
+</html>
