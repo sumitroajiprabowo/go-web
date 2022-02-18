@@ -96,7 +96,7 @@ func TestUploadForm(t *testing.T) {
 
 }
 
-//go:embed tmp/test.jpg
+//go:embed tmp/test.png
 var uploadFileTest []byte
 
 func TestUploadFile(t *testing.T) {
@@ -104,14 +104,22 @@ func TestUploadFile(t *testing.T) {
 	// Create a new multipart reader based on the request body
 	body := new(bytes.Buffer)
 
-	// Create a multipart writer
+	// Create a multipart writer and add the file to the body
 	writer := multipart.NewWriter(body)
 
 	// Create a new file to upload and write the contents to the file
-	writer.WriteField("name", "Golang Upload File Test")
+	err := writer.WriteField("name", "Golang Upload File Test")
+
+	if err != nil {
+		panic(err)
+	}
 
 	// Create a new file to upload and write the contents to the file
-	file, _ := writer.CreateFormFile("file", "test.jpg")
+	file, err := writer.CreateFormFile("file", "example.png")
+
+	if err != nil {
+		panic(err)
+	}
 
 	// Write the file contents to the file
 	file.Write(uploadFileTest)
